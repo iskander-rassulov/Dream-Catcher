@@ -125,6 +125,11 @@ public class PlayerController : MonoBehaviour {
 
             playerAnimator.SetTrigger("Punch");
 
+            Rigidbody otherRigidbody = other.GetComponent<Rigidbody>();
+            if (otherRigidbody != null) {
+            otherRigidbody.velocity = Vector3.zero;
+            }
+
             StartCoroutine(PunchCoroutine(other.gameObject, 0.7f));
             // Destroy the dream and increase score
             score++;
