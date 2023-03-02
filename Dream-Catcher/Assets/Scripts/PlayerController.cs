@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public float mouseSensivity = 2f;
    
-
     private CharacterController characterController;
+    public float mouseSensivity = 2f;
     private float cameraUpDownRange = 60f;
     private float cameraRotationUpDown = 0;
     private float characterRotationLeftRight;
@@ -19,10 +18,10 @@ public class PlayerController : MonoBehaviour {
     private Camera cam;
     private int score;
     private Animator playerAnimator;
-
-
+    
     [SerializeField]
     private float movementSpeed = 2.5f;
+
 
 
     void Start() {
@@ -36,8 +35,8 @@ public class PlayerController : MonoBehaviour {
 
 
     void Update() {
-        RotatingCameraUpDown();
         MovingCharacter();
+        AnimationOn();
     }
 
     private void MovingCharacter() {
@@ -57,17 +56,9 @@ public class PlayerController : MonoBehaviour {
         speed = transform.rotation * speed; //  Moving towards camera view.
         characterController.Move(speed * Time.deltaTime);
 
-        AnimationOn();
-
     }
 
-    private void RotatingCameraUpDown() {
-        
-        cameraRotationUpDown -= Input.GetAxis("Mouse Y") * mouseSensivity;
-        cameraRotationUpDown = Mathf.Clamp(cameraRotationUpDown, -cameraUpDownRange, cameraUpDownRange);
-        cam.transform.localRotation = Quaternion.Euler(cameraRotationUpDown, 0, 0);
-
-    }
+   
 
 
     void AnimationOn(){
@@ -134,10 +125,15 @@ public class PlayerController : MonoBehaviour {
 
             playerAnimator.SetTrigger("Punch");
 
+            StartCoroutine(PunchCoroutine(other.gameObject, 0.7f));
             // Destroy the dream and increase score
-            Destroy(other.gameObject);
             score++;
         }
+    }
+
+    IEnumerator PunchCoroutine(GameObject objectToDestroy, float delay) {
+        yield return new WaitForSeconds(delay);
+        Destroy(objectToDestroy);
     }
 
 }
