@@ -7,13 +7,12 @@ public class PlayerMovement : MonoBehaviour
     private int score = 0;
     public float speed = 20.0f;
     public float rotateSpeed = 2.0f;
-
-    private Animator animator;
+    private Animator playerAnimator;
     private Rigidbody rb;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        playerAnimator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -29,8 +28,9 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), rotateSpeed * Time.deltaTime);
         }
-
     }
+
+    
 
 
     private void OnTriggerEnter(Collider other)

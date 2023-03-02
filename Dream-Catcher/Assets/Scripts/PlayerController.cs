@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
     private float verticalVelocity = 0;
     private Camera cam;
     private int score;
+    private Animator playerAnimator;
 
 
     [SerializeField]
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        playerAnimator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         cam = Camera.main;
     }
@@ -55,6 +57,8 @@ public class PlayerController : MonoBehaviour {
         speed = transform.rotation * speed; //  Moving towards camera view.
         characterController.Move(speed * Time.deltaTime);
 
+        AnimationOn();
+
     }
 
     private void RotatingCameraUpDown() {
@@ -65,10 +69,71 @@ public class PlayerController : MonoBehaviour {
 
     }
 
+
+    void AnimationOn(){
+        if(playerAnimator != null){
+
+                playerAnimator.ResetTrigger("Left");
+                playerAnimator.ResetTrigger("Right");
+                playerAnimator.ResetTrigger("WalkBackward");
+                playerAnimator.ResetTrigger("WalkForward");
+
+                playerAnimator.SetTrigger("Idle");
+
+            if(Input.GetKey(KeyCode.W))
+            {
+                playerAnimator.ResetTrigger("Idle");
+                playerAnimator.ResetTrigger("Right");
+                playerAnimator.ResetTrigger("Left");
+                playerAnimator.ResetTrigger("WalkBackward");
+
+                playerAnimator.SetTrigger("WalkForward");
+            }
+
+            if(Input.GetKey(KeyCode.S))
+            {
+                playerAnimator.ResetTrigger("Idle");
+                playerAnimator.ResetTrigger("Right");
+                playerAnimator.ResetTrigger("Left");
+                playerAnimator.ResetTrigger("WalkForward");
+
+                playerAnimator.SetTrigger("WalkBackward");
+            }
+
+            if(Input.GetKey(KeyCode.A))
+            {
+                playerAnimator.ResetTrigger("Idle");
+                playerAnimator.ResetTrigger("Right");
+                playerAnimator.ResetTrigger("WalkForward");
+                playerAnimator.ResetTrigger("WalkBackward");
+
+                playerAnimator.SetTrigger("Left");
+            }
+
+            if(Input.GetKey(KeyCode.D))
+            {
+                playerAnimator.ResetTrigger("Idle");
+                playerAnimator.ResetTrigger("Left");
+                playerAnimator.ResetTrigger("WalkForward");
+                playerAnimator.ResetTrigger("WalkBackward");
+
+                playerAnimator.SetTrigger("Right");
+            }
+
+
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Dream"))
         {
+            playerAnimator.ResetTrigger("Idle");
+            playerAnimator.ResetTrigger("Left");
+            playerAnimator.ResetTrigger("Right");
+
+            playerAnimator.SetTrigger("Punch");
+
             // Destroy the dream and increase score
             Destroy(other.gameObject);
             score++;
