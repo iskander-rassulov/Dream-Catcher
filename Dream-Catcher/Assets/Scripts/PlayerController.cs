@@ -7,8 +7,6 @@ public class PlayerController : MonoBehaviour {
    
     private CharacterController characterController;
     public float mouseSensivity = 2f;
-    private float cameraUpDownRange = 60f;
-    private float cameraRotationUpDown = 0;
     private float characterRotationLeftRight;
     private float forwardSpeed;
     private float sideSpeed;
@@ -16,7 +14,7 @@ public class PlayerController : MonoBehaviour {
     private Vector3 speed;
     private float verticalVelocity = 0;
     private Camera cam;
-    private int score;
+    private int dreamCatched;
     private Animator playerAnimator;
     
     [SerializeField]
@@ -121,7 +119,7 @@ public class PlayerController : MonoBehaviour {
                 //Run
                 if(Input.GetKey(KeyCode.LeftShift)){
 
-                movementSpeed = 6f;
+                movementSpeed = 4f;
                 playerAnimator.ResetTrigger("Idle");
                 playerAnimator.ResetTrigger("Right");
                 playerAnimator.ResetTrigger("Left");
@@ -146,12 +144,17 @@ public class PlayerController : MonoBehaviour {
             }
             }
 
+            if(Input.GetKeyUp(KeyCode.A))
+            {
+                movementSpeed = 2.5f;
+            } 
+            
             if(Input.GetKey(KeyCode.D))
             {
                 //Run
                 if(Input.GetKey(KeyCode.LeftShift)){
 
-                movementSpeed = 6f;
+                movementSpeed = 4f;
                 playerAnimator.ResetTrigger("Idle");
                 playerAnimator.ResetTrigger("Right");
                 playerAnimator.ResetTrigger("Left");
@@ -181,7 +184,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Dream"))
+        if (other.CompareTag("BadDream") || other.CompareTag("Boss"))
         {
             playerAnimator.ResetTrigger("Idle");
             playerAnimator.ResetTrigger("Left");
@@ -200,8 +203,10 @@ public class PlayerController : MonoBehaviour {
             otherRigidbody.velocity = Vector3.zero;
             }
             StartCoroutine(PunchCoroutine(other.gameObject, 0.7f));
+             if (other.CompareTag("Boss")){dreamCatched = dreamCatched + 49;}
             // Destroy the dream and increase score
-            score++;
+            dreamCatched++;
+            Debug.Log(dreamCatched);
         }
     }
 

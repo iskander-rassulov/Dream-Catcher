@@ -4,9 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Dream
   - Hero
   - Sleepy
+  - BadDream
+  - GoodDream
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -14,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - PostProcessing
   - 
   - 
   - 
