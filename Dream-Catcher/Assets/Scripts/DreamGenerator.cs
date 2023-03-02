@@ -18,8 +18,6 @@ public class DreamGenerator : MonoBehaviour
         // If the spawn interval has passed, spawn a ball
         if (timeSinceLastSpawn >= spawnInterval)
         {
-            Debug.Log(timeSinceLastSpawn);
-            Debug.Log("Object CREATED");
             // Reset the time since the last ball spawn
             timeSinceLastSpawn = 0f;
 
@@ -34,4 +32,5 @@ public class DreamGenerator : MonoBehaviour
             dreamRigidbody.velocity = Vector3.back * dreamSpeed;
         }
     }
+
 }

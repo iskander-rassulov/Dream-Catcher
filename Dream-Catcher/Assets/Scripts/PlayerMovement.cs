@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5.0f; // The movement speed of the player
 
+    private int score = 0;
     private Animator playerAnimator;
     private float moveDirection; // The direction the player is moving in
     private Transform playerTransform;
@@ -54,7 +55,19 @@ public class PlayerMovement : MonoBehaviour
                 playerAnimator.SetTrigger("Right");
             }
              
-               
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+    
+        Debug.Log(score);
+        if (other.CompareTag("Dream"))
+        {
+            // Destroy the ball
+            Destroy(other.gameObject);
+            score++;
+        }
+    }
+
 }
