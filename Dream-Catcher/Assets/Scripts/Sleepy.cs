@@ -22,21 +22,18 @@ public class Sleepy : MonoBehaviour
         if (other.CompareTag("BadDream"))
         {
             score--;
-            Debug.Log(score);
             Destroy(other.gameObject);
         }
 
         if (other.CompareTag("GoodDream"))
         {
             score++;
-            Debug.Log(score);
             Destroy(other.gameObject);
         }
 
         if (other.CompareTag("Boss"))
         {
             score = score - 100;
-            Debug.Log(score);
             Destroy(other.gameObject);
         }
 

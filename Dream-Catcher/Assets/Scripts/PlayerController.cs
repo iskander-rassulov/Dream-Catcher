@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour {
                 }else{
 
                 //MoveLeft
-                 AnimationCheck(2);
+                AnimationCheck(2);
             }
             }
 
@@ -128,6 +128,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.CompareTag("BadDream") || other.CompareTag("Boss"))
         {
+            //Punch
             AnimationCheck(8);
 
             isMovementEnabled = false; // Disable movement when the player collides with the dream
@@ -137,11 +138,11 @@ public class PlayerController : MonoBehaviour {
             if (otherRigidbody != null) {
             otherRigidbody.velocity = Vector3.zero;
             }
-            StartCoroutine(PunchCoroutine(other.gameObject, 0.7f));
-             if (other.CompareTag("Boss")){dreamCatched = dreamCatched + 49;}
+
             // Destroy the dream and increase score
-            dreamCatched++;
-            Debug.Log(dreamCatched);
+            StartCoroutine(PunchCoroutine(other.gameObject, 0.7f));
+            if (other.CompareTag("Boss")){dreamCatched = dreamCatched + 50;}else dreamCatched++;
+        
         }
     }
 
@@ -156,11 +157,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void AnimationCheck(int numOfAnimation){
+
+            
             for(int i = 0; i < AnimationsArray.Length; i++){
                 if(i == numOfAnimation){
                     playerAnimator.SetTrigger(AnimationsArray[numOfAnimation]);
-                    continue;
-                } 
+                    Debug.Log(numOfAnimation);
+                    
+                } else if(i!= 8)
                 playerAnimator.ResetTrigger(AnimationsArray[i]);
             }
     }
