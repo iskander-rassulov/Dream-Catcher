@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour {
                 if(Input.GetKey(KeyCode.LeftShift)){
 
                 movementSpeed = 4f;
-                AnimationCheck(7);
+                AnimationCheck(5);
                 }else{
 
                 //MoveLeft
@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour {
                 if(Input.GetKey(KeyCode.LeftShift)){
 
                 movementSpeed = 4f;
-                AnimationCheck(6);
+                AnimationCheck(5);
                 }else{
 
                 //MoveRight
