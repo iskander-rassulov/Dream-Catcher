@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private float movementSpeed = 2.5f;
     private bool isMovementEnabled = true;
-
+    private string[] AnimationsArray = {"Idle", "Right", "Left", "WalkForward","WalkBackward", "Run", "RightRun", "LeftRun", "Punch"};
+    
 
 
     void Start() {
@@ -66,116 +67,57 @@ public class PlayerController : MonoBehaviour {
 
     void AnimationOn(){
         if(playerAnimator != null){
+            
+            movementSpeed = 2.5f;
 
-                movementSpeed = 2.5f;
-                playerAnimator.ResetTrigger("Left");
-                playerAnimator.ResetTrigger("Right");
-                playerAnimator.ResetTrigger("WalkBackward");
-                playerAnimator.ResetTrigger("WalkForward");
-                playerAnimator.ResetTrigger("Run");
-
-                playerAnimator.SetTrigger("Idle");
+            AnimationCheck(0);
 
             if(Input.GetKey(KeyCode.W))
             {
                 //Run
                 if(Input.GetKey(KeyCode.LeftShift)){
-
-                movementSpeed = 6f;
-                playerAnimator.ResetTrigger("Idle");
-                playerAnimator.ResetTrigger("Right");
-                playerAnimator.ResetTrigger("Left");
-                playerAnimator.ResetTrigger("WalkBackward");
-                playerAnimator.ResetTrigger("WalkForward");
-
-                playerAnimator.SetTrigger("Run");
+                movementSpeed = 4f;
+                AnimationCheck(5);
                 }else{
 
                 //Move
-                playerAnimator.ResetTrigger("Idle");
-                playerAnimator.ResetTrigger("Right");
-                playerAnimator.ResetTrigger("Left");
-                playerAnimator.ResetTrigger("WalkBackward");
-                playerAnimator.ResetTrigger("Run");
-
-                playerAnimator.SetTrigger("WalkForward");}
+                AnimationCheck(3);
+                }
                 
             }
 
             if(Input.GetKey(KeyCode.S))
             {
-                
-                playerAnimator.ResetTrigger("Idle");
-                playerAnimator.ResetTrigger("Right");
-                playerAnimator.ResetTrigger("Left");
-                playerAnimator.ResetTrigger("WalkForward");
-                playerAnimator.ResetTrigger("Run");
-
-                playerAnimator.SetTrigger("WalkBackward");
+                //MoveBackward
+                AnimationCheck(4);
             }
 
             if(Input.GetKey(KeyCode.A))
             {
-                //Run
+                //RunLeft
                 if(Input.GetKey(KeyCode.LeftShift)){
 
                 movementSpeed = 4f;
-                playerAnimator.ResetTrigger("Idle");
-                playerAnimator.ResetTrigger("Right");
-                playerAnimator.ResetTrigger("Left");
-                playerAnimator.ResetTrigger("WalkBackward");
-                playerAnimator.ResetTrigger("WalkForward");
-                playerAnimator.ResetTrigger("Run");
-                playerAnimator.ResetTrigger("RightRun");
-
-                playerAnimator.SetTrigger("LeftRun");
+                AnimationCheck(7);
                 }else{
 
-                //Move
-                playerAnimator.ResetTrigger("Idle");
-                playerAnimator.ResetTrigger("Right");
-                playerAnimator.ResetTrigger("WalkForward");
-                playerAnimator.ResetTrigger("WalkBackward");
-                playerAnimator.ResetTrigger("Run");
-                playerAnimator.ResetTrigger("LeftRun");
-                playerAnimator.ResetTrigger("RightRun");
-
-                playerAnimator.SetTrigger("Left");
+                //MoveLeft
+                 AnimationCheck(2);
             }
             }
 
-            if(Input.GetKeyUp(KeyCode.A))
-            {
-                movementSpeed = 2.5f;
-            } 
             
             if(Input.GetKey(KeyCode.D))
             {
-                //Run
+                //RunRight
                 if(Input.GetKey(KeyCode.LeftShift)){
 
                 movementSpeed = 4f;
-                playerAnimator.ResetTrigger("Idle");
-                playerAnimator.ResetTrigger("Right");
-                playerAnimator.ResetTrigger("Left");
-                playerAnimator.ResetTrigger("WalkBackward");
-                playerAnimator.ResetTrigger("WalkForward");
-                playerAnimator.ResetTrigger("Run");
-                playerAnimator.ResetTrigger("LeftRun");
-
-                playerAnimator.SetTrigger("RightRun");
+                AnimationCheck(6);
                 }else{
 
-                //Move
-                playerAnimator.ResetTrigger("Idle");
-                playerAnimator.ResetTrigger("Left");
-                playerAnimator.ResetTrigger("WalkForward");
-                playerAnimator.ResetTrigger("WalkBackward");
-                playerAnimator.ResetTrigger("Run");
-                playerAnimator.ResetTrigger("LeftRun");
-                playerAnimator.ResetTrigger("RightRun");
-
-                playerAnimator.SetTrigger("Right");
+                //MoveRight
+                AnimationCheck(1);
             }
         }
         
@@ -186,14 +128,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.CompareTag("BadDream") || other.CompareTag("Boss"))
         {
-            playerAnimator.ResetTrigger("Idle");
-            playerAnimator.ResetTrigger("Left");
-            playerAnimator.ResetTrigger("Right");
-            playerAnimator.ResetTrigger("WalkForward");
-            playerAnimator.ResetTrigger("WalkBackward");
-            playerAnimator.ResetTrigger("Run");
-
-            playerAnimator.SetTrigger("Punch");
+            AnimationCheck(8);
 
             isMovementEnabled = false; // Disable movement when the player collides with the dream
             StartCoroutine(EnableMovementAfterDelay(0.7f)); // Re-enable movement after a delay of 0.7 seconds
@@ -218,6 +153,16 @@ public class PlayerController : MonoBehaviour {
     IEnumerator EnableMovementAfterDelay(float delay) {
         yield return new WaitForSeconds(delay);
         isMovementEnabled = true;
+    }
+
+    private void AnimationCheck(int numOfAnimation){
+            for(int i = 0; i < AnimationsArray.Length; i++){
+                if(i == numOfAnimation){
+                    playerAnimator.SetTrigger(AnimationsArray[numOfAnimation]);
+                    continue;
+                } 
+                playerAnimator.ResetTrigger(AnimationsArray[i]);
+            }
     }
 
 }
