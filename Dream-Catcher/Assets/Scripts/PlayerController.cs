@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour {
     private CharacterController characterController;
     public float mouseSensivity = 2f;
     private float characterRotationLeftRight;
-    private float forwardSpeed;
-    private float sideSpeed;
+    private float vertInput;
+    private float horizInput;
     private float jumpSpeed = 2.5f;
     private Vector3 speed;
     private float verticalVelocity = 0;
@@ -51,17 +51,18 @@ public class PlayerController : MonoBehaviour {
         characterRotationLeftRight = Input.GetAxis("Mouse X") * mouseSensivity;
         transform.Rotate(0, characterRotationLeftRight, 0); //Rotate whole character with camera view.
 
-        forwardSpeed = Input.GetAxis("Vertical") * movementSpeed; // W, S
-        sideSpeed = Input.GetAxis("Horizontal") * movementSpeed; // A, D
+        vertInput = Input.GetAxis("Vertical"); // W, S
+        horizInput = Input.GetAxis("Horizontal"); // A, D
 
-        verticalVelocity += Physics.gravity.y * Time.deltaTime;
-        if (characterController.isGrounded && Input.GetButtonDown("Jump")) { // SPACE
-            verticalVelocity = jumpSpeed;
-        }
+        Vector3 forwardMovement = transform.forward * vertInput;
+        Vector3 sideMovement = transform.right * horizInput;
 
-        speed = new Vector3(sideSpeed, verticalVelocity, forwardSpeed);
-        speed = transform.rotation * speed; //  Moving towards camera view.
-        characterController.Move(speed * Time.deltaTime);
+        characterController.SimpleMove(Vector3.ClampMagnitude(forwardMovement + sideMovement, 1.0f) * movementSpeed);
+
+
+        // speed = new Vector3.ClampMagnitude(sideSpeed, 1.0f, forwardSpeed) * movementSpeed;
+        // speed = transform.rotation * speed; //  Moving towards camera view.
+        // characterController.Move(speed * Time.deltaTime);
 
     }
 
@@ -98,30 +99,30 @@ public class PlayerController : MonoBehaviour {
             if(Input.GetKey(KeyCode.A))
             {
                 //RunLeft
-                if(Input.GetKey(KeyCode.LeftShift)){
+                // if(Input.GetKey(KeyCode.LeftShift)){
 
-                movementSpeed = 4f;
-                AnimationCheck(5);
-                }else{
+                // movementSpeed = 4f;
+                // AnimationCheck(7);
+                // }else
 
                 //MoveLeft
                 AnimationCheck(2);
-            }
+            
             }
 
             
             if(Input.GetKey(KeyCode.D))
             {
                 //RunRight
-                if(Input.GetKey(KeyCode.LeftShift)){
+                // if(Input.GetKey(KeyCode.LeftShift)){
 
-                movementSpeed = 4f;
-                AnimationCheck(5);
-                }else{
+                // movementSpeed = 4f;
+                // AnimationCheck(6);
+                // }else
 
                 //MoveRight
                 AnimationCheck(1);
-            }
+            
         }
         
     }
