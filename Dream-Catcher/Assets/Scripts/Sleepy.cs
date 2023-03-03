@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Sleepy : MonoBehaviour
 {
-    private int score = 0;
+    public GameObject endGameCanvas;
+    private int health = 100;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,26 +15,29 @@ public class Sleepy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(health < 0){
+            Time.timeScale = 0;
+            endGameCanvas.SetActive(true);
+        }
     }
 
      private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("BadDream"))
         {
-            score--;
+            health = health - 10;
             Destroy(other.gameObject);
         }
 
         if (other.CompareTag("GoodDream"))
         {
-            score++;
+            health = health + 10;
             Destroy(other.gameObject);
         }
 
         if (other.CompareTag("Boss"))
         {
-            score = score - 100;
+            health = health - 50;
             Destroy(other.gameObject);
         }
 

@@ -10,11 +10,8 @@ public class PlayerController : MonoBehaviour {
     private float characterRotationLeftRight;
     private float vertInput;
     private float horizInput;
-    private float jumpSpeed = 2.5f;
-    private Vector3 speed;
-    private float verticalVelocity = 0;
     private Camera cam;
-    private int dreamCatched;
+    public int dreamCatched = 0;
     private Animator playerAnimator;
     public ParticleSystem particles;
     
@@ -148,12 +145,12 @@ public class PlayerController : MonoBehaviour {
             if (particles != null) {
                 particles.Play();
             }
-            StartCoroutine(ParticleCoroutine(particles, 0.6f));
+            StartCoroutine(ParticleCoroutine(particles, 0.7f));
             //Punch
             AnimationCheck(8);
 
             isMovementEnabled = false; // Disable movement when the player collides with the dream
-            StartCoroutine(EnableMovementAfterDelay(0.7f)); // Re-enable movement after a delay of 0.7 seconds
+            StartCoroutine(EnableMovementAfterDelay(0.8f)); // Re-enable movement after a delay of 0.7 seconds
     
             Rigidbody otherRigidbody = other.GetComponent<Rigidbody>();
             if (otherRigidbody != null) {
@@ -184,7 +181,6 @@ public class PlayerController : MonoBehaviour {
 
     private void AnimationCheck(int numOfAnimation){
 
-            
             for(int i = 0; i < AnimationsArray.Length; i++){
                 if(i == numOfAnimation){
                     playerAnimator.SetTrigger(AnimationsArray[numOfAnimation]);

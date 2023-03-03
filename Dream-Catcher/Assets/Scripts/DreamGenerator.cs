@@ -17,7 +17,7 @@ public class DreamGenerator : MonoBehaviour
         timeSinceLastSpawn += Time.deltaTime;
         timeDifficulty += Time.deltaTime;
 
-        if(timeDifficulty >= 60){
+        if(timeDifficulty >= 30){
             spawnInterval = spawnInterval - 1;
             dreamSpeed++;
             timeDifficulty = 0;
