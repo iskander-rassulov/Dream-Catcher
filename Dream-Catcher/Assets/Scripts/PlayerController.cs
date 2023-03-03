@@ -48,9 +48,18 @@ public class PlayerController : MonoBehaviour {
         return; // Do nothing if movement is disabled
         }
 
+        if(Time.timeScale == 0){
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }else {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        }
+
+        if(Time.timeScale != 0f){
         characterRotationLeftRight = Input.GetAxis("Mouse X") * mouseSensivity;
         transform.Rotate(0, characterRotationLeftRight, 0); //Rotate whole character with camera view.
-
+        }
         vertInput = Input.GetAxis("Vertical"); // W, S
         horizInput = Input.GetAxis("Horizontal"); // A, D
 
@@ -80,7 +89,7 @@ public class PlayerController : MonoBehaviour {
             {
                 //Run
                 if(Input.GetKey(KeyCode.LeftShift)){
-                movementSpeed = 4f;
+                movementSpeed = 6f;
                 AnimationCheck(5);
                 }else{
 
@@ -99,30 +108,30 @@ public class PlayerController : MonoBehaviour {
             if(Input.GetKey(KeyCode.A))
             {
                 //RunLeft
-                // if(Input.GetKey(KeyCode.LeftShift)){
+                if(Input.GetKey(KeyCode.LeftShift)){
 
-                // movementSpeed = 4f;
-                // AnimationCheck(7);
-                // }else
+                movementSpeed = 4f;
+                AnimationCheck(7);
+                }else{
 
                 //MoveLeft
                 AnimationCheck(2);
-            
+                }
             }
 
             
             if(Input.GetKey(KeyCode.D))
             {
                 //RunRight
-                // if(Input.GetKey(KeyCode.LeftShift)){
+                if(Input.GetKey(KeyCode.LeftShift)){
 
-                // movementSpeed = 4f;
-                // AnimationCheck(6);
-                // }else
+                movementSpeed = 4f;
+                AnimationCheck(6);
+                }else{
 
                 //MoveRight
                 AnimationCheck(1);
-            
+                }
         }
         
     }
@@ -179,7 +188,6 @@ public class PlayerController : MonoBehaviour {
             for(int i = 0; i < AnimationsArray.Length; i++){
                 if(i == numOfAnimation){
                     playerAnimator.SetTrigger(AnimationsArray[numOfAnimation]);
-                    Debug.Log(numOfAnimation);
                     
                 } else if(i!= 8)
                 playerAnimator.ResetTrigger(AnimationsArray[i]);

@@ -19,7 +19,6 @@ public class MenuController : MonoBehaviour
 
     public void QuitGame()
     {
-        Debug.Log("Pressed btw");
         Application.Quit();
     }
 

@@ -28,13 +28,19 @@ public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (isHovering)
         {
             rectTransform.localScale = Vector3.Lerp(rectTransform.localScale, originalScale * hoverScale, Time.deltaTime * transitionSpeed);
+            if (buttonText != null)
+            {
             buttonText.fontSize = (int)(buttonText.fontSize * hoverScale);
+            }
         }
         // Otherwise, gradually return the button to its original scale
         else
         {
             rectTransform.localScale = Vector3.Lerp(rectTransform.localScale, originalScale, Time.deltaTime * transitionSpeed);
-            buttonText.fontSize = (int)(buttonText.fontSize / hoverScale);
+            if (buttonText != null)
+            {
+                buttonText.fontSize = (int)(buttonText.fontSize / hoverScale);
+            }
         }
     }
 
