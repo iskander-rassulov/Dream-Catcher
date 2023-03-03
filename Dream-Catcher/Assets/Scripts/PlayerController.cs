@@ -16,11 +16,14 @@ public class PlayerController : MonoBehaviour {
     private Camera cam;
     private int dreamCatched;
     private Animator playerAnimator;
+    public ParticleSystem particles;
     
     [SerializeField]
     private float movementSpeed = 2.5f;
     private bool isMovementEnabled = true;
     private string[] AnimationsArray = {"Idle", "Right", "Left", "WalkForward","WalkBackward", "Run", "RightRun", "LeftRun", "Punch"};
+    public AudioSource audioSource;
+    public AudioClip audioClip;    
     
 
 
@@ -128,6 +131,14 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.CompareTag("BadDream") || other.CompareTag("Boss"))
         {
+            //Sound
+            audioSource.PlayOneShot(audioClip);
+
+            //Effect
+            if (particles != null) {
+                particles.Play();
+            }
+            StartCoroutine(ParticleCoroutine(particles, 0.6f));
             //Punch
             AnimationCheck(8);
 
@@ -142,13 +153,18 @@ public class PlayerController : MonoBehaviour {
             // Destroy the dream and increase score
             StartCoroutine(PunchCoroutine(other.gameObject, 0.7f));
             if (other.CompareTag("Boss")){dreamCatched = dreamCatched + 50;}else dreamCatched++;
-        
+            
         }
     }
 
     IEnumerator PunchCoroutine(GameObject objectToDestroy, float delay) {
         yield return new WaitForSeconds(delay);
         Destroy(objectToDestroy);
+    }
+
+    IEnumerator ParticleCoroutine(ParticleSystem particle, float delay) {
+        yield return new WaitForSeconds(delay);
+        particle.Stop();
     }
 
     IEnumerator EnableMovementAfterDelay(float delay) {
